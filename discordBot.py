@@ -49,24 +49,24 @@ async def skibidi(context): # the function name "skibidi" is the command itself
 #______________________________________________________________________________________#
 # keep repeating a task
 # source: https://stackoverflow.com/questions/76063036/how-to-make-an-endless-loop-in-python-for-a-discord-bot
-@tasks.loop(seconds=1)
+@tasks.loop(seconds=1) # loop every 1 second
 async def task_loop():
-    for i in range(0, len(messagesList)):
-        checked_L = False
-        if (len(messagesList[i].reactions) != 0):
-            for j in messagesList[i].reactions:
-                if (j.emoji == "🇱"):
-                    checked_L = True
-                    if (countList[i] != j.count):
-                        countList[i] = j.count
-                        reply = "Twin you got L + "
-                        for k in range(0, j.count):
+    for i in range(0, len(messagesList)): # check the message list
+        checked_L = False # set a flag to check if L emoji exist
+        if (len(messagesList[i].reactions) != 0): # if there is reaction(s) in message, then go through the reaction list
+            for j in messagesList[i].reactions: # iterate the reaction list
+                if (j.emoji == "🇱"): # check if it is L emoji
+                    checked_L = True # if L exists, then set flag to True
+                    if (countList[i] != j.count): # if there are changes between the L in message and last record L count
+                        countList[i] = j.count # set new L count
+                        reply = "Twin you got L + " # reply string
+                        for k in range(0, j.count): # add more terms as the L reaction increase
                             reply = reply + ratio_terms[k] + " "
                         await messagesList[i].reply(reply + ":skull:")
                         break
-            if (not checked_L):
+            if (not checked_L): # set L count of this message to 0 (there are emoji, but no L emoji, someone may remove it and change it from 1 to 0)
                 countList[i] = 0
-        else:
+        else: # else (if message has no reaction), set the L count of this message to 0 (the people may removed the L emoji, changing it from 1 to 0)
             countList[i] = 0
 #______________________________________________________________________________________#
 
@@ -89,7 +89,7 @@ async def task_loop():
 #______________________________________________________________________________________#
 @myBrainrotBot.listen("on_message")
 async def add_message(message):
-    if (len(messagesList) < 100):
+    if (len(messagesList) < 50):
         messagesList.append(message)
         countList.append(0)
     else:
