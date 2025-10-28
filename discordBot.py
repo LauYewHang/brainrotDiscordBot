@@ -1,4 +1,4 @@
-# uwu
+# owo
 
 # Discord's API
 import discord
