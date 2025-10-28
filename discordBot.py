@@ -1,3 +1,5 @@
+# uwu
+
 # Discord's API
 import discord
 from discord.ext import commands
